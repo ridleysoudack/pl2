@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang = "en">
+    <head>
+        <link rel="stylesheet" href="https://js.arcgis.com/4.22/esri/themes/light/main.css">
+        <script src="https://js.arcgis.com/4.22/" defer></script>        
+        <title>ArcGIS API for Javascript Tutorials</title>
+    <style>
+        html, body, #viewDiv {
+            padding: 0;
+            margin: 0;
+            height: 100%;
+            width: 100%;
+        }
+    </style>
+    <script>
+        require(["esri/config","esri/Map", "esri/views/MapView"], function (esriConfig, Map, Mapview) {
+            esriConfig.apiKey = "AAPKdacebc27a6b04ea2b647ad0107359f55h4fwQIey1N-kURE6XM5lfcDcuJfybrwbNlYr5ulARRcqIri7GcksfkVjG7A6I5oZ"
+            const map = new Map({
+                basemap: "arcgis-terrain"
+            });
+            const view = new MapView({
+                map: map,
+                center: [54.773024, -1.576581],
+                zoom: 15,
+                container: "viewDiv"
+            });
+        });
+    </script>
+    </head>
+    <body>
+        <div id="viewDiv"></div>
+    </body>
+
+</html>
