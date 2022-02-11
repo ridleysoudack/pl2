@@ -4,12 +4,14 @@
         <link rel="stylesheet" href="https://js.arcgis.com/4.22/esri/themes/light/main.css">
         <script src="https://js.arcgis.com/4.22/"></script>        
         <title>ArcGIS API for Javascript Tutorials</title>
+        <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500&display=swap" rel="stylesheet">
     <style>
         html, body, #viewDiv {
             padding: 0;
             margin: 0;
             height: 100%;
             width: 100%;
+            font-family: 'Poppins', sans-serif;
         }
         #title {
             color: #870009;
@@ -25,6 +27,10 @@
         }
     </style>
     <script>
+        //Script based on tutorials:
+        // - https://developers.arcgis.com/javascript/latest/view-ui/
+        // - https://developers.arcgis.com/javascript/latest/style-a-feature-layer/
+        // - Feature layer involved created by me, based on a true story!
         require([     
             "esri/config",
             "esri/Map",
