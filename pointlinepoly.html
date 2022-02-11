@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang = "en">
+    <head> <!--Map showing Durham Cathedral, Palace Green, and the River Wear!-->
+        <title>ArcGIS API for Javascript Tutorials</title>
+        <style>
+            html, body, #viewDiv {
+                padding: 0;
+                margin: 0;
+                height: 100%;
+                width: 100%;
+            }
+        </style>
+            <link rel="stylesheet" href="https://js.arcgis.com/4.22/esri/themes/light/main.css">
+            <script src="https://js.arcgis.com/4.22/"></script>      
+        <script>
+            require([     
+                "esri/config",
+                "esri/Map",
+                "esri/views/MapView",
+
+                "esri/Graphic",
+                "esri/layers/GraphicsLayer"
+                
+            ], function(esriConfig,Map, MapView, Graphic, GraphicsLayer) {
+                esriConfig.apiKey = "AAPKdacebc27a6b04ea2b647ad0107359f55h4fwQIey1N-kURE6XM5lfcDcuJfybrwbNlYr5ulARRcqIri7GcksfkVjG7A6I5oZ";
+                const map = new Map({
+                    basemap: "arcgis-terrain"
+                });
+                const view = new MapView({
+                    map: map,
+                    center: [ -1.576581, 54.773024],
+                    zoom: 16,
+                    container: "viewDiv"
+                });
+                const graphicsLayer = new GraphicsLayer();
+                map.add(graphicsLayer);
+
+                const point = {
+                    type: "point",
+                    longitude: -1.576477, 
+                    latitude: 54.77353
+                };
+
+                const simpleMarkerSymbol = {
+                    type: "simple-marker",
+                    color: [104, 40, 96], //Palatinate Purple
+                    outline: {
+                        color: [255, 255, 255],
+                        width: 1
+                    }
+                };
+
+                const pointGraphic = new Graphic({
+                    geometry: point,
+                    symbol: simpleMarkerSymbol
+                });
+                graphicsLayer.add(pointGraphic);
+
+                const polyline = {
+                    type: "polyline",
+                    paths: [
+                        [-1.57725, 54.77814],
+                        [-1.57956, 54.77163],
+                        [-1.57927, 54.77027],
+                        [-1.57811, 54.76966],
+                        [-1.57613, 54.77008],
+                        [-1.57274, 54.77268],
+                        [-1.57251, 54.77308],
+                        [-1.57342, 54.77565]
+                    ]
+                };
+                const simpleLineSymbol = {
+                    type: "simple-line",
+                    color: [0, 117, 119] //Water Blue
+                }
+                const polylineGraphic = new Graphic({
+                    geometry: polyline,
+                    symbol: simpleLineSymbol
+                })
+                graphicsLayer.add(polylineGraphic)
+            
+                const polygon = {
+                    type: "polygon",
+                    rings: [ 
+                        [-1.575560, 54.774755],
+                        [-1.576113, 54.774774],
+                        [-1.576254, 54.774281],
+                        [-1.575699, 54.774210]
+                    ]
+                };
+                const simpleFillSymbol = {
+                    type: "simple-fill",
+                    color: [126, 200, 80], // Grass Green
+                    outline: {
+                        color: [255, 255, 255],
+                        width: 1
+                    }
+                };
+
+                const popupTemplate = {
+                    title: "{Name}",
+                    content: "{Description}"
+                }
+                const attributes = {
+                    Name: "Palace Green",
+                    Description: "No ball games allowed on Palace Green!"
+                }
+
+                const polygonGraphic = new Graphic({
+                    geometry: polygon,
+                    symbol: simpleFillSymbol,
+                    attributes: attributes,
+                    popupTemplate: popupTemplate
+                });
+                graphicsLayer.add(polygonGraphic);
+            });
+        </script>
+    </head>
+    <body>
+        <div id="viewDiv"></div>
+    </body>
+
+</html>

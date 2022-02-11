@@ -25,10 +25,18 @@
             });
             const view = new MapView({
                 map: map,
-                center: [116.405627, 39.883992],
-                zoom: 13,
+                center: [-79.441438, 43.655480],
+                zoom: 14,
                 container: "viewDiv"
             });
+
+            const scavengerstopsRenderer = {
+                "type": "simple"
+                "symbol": {
+                    "type": "picture-marker",
+                    "url": "hearticon.png"
+                }
+            }
         });
     </script>
     </head>
