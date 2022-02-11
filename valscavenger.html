@@ -11,37 +11,114 @@
             height: 100%;
             width: 100%;
         }
+        #title {
+            color: #870009;
+            text-shadow: 0 0 3px #FFFFFF;
+            font-size: 48px;
+            box-shadow: none;
+        }
+        #subtitle {
+            color: #870009;
+            text-shadow: 0 0 3px #FFFFFF;
+            font-size: 30px;
+            box-shadow: none;
+        }
     </style>
     <script>
         require([     
             "esri/config",
             "esri/Map",
             "esri/views/MapView",
-            
-        ], function (esriConfig, Map, MapView) {
+            "esri/layers/FeatureLayer"
+        ], function (esriConfig, Map, MapView, FeatureLayer) {
             esriConfig.apiKey = "AAPKdacebc27a6b04ea2b647ad0107359f55h4fwQIey1N-kURE6XM5lfcDcuJfybrwbNlYr5ulARRcqIri7GcksfkVjG7A6I5oZ";
             const map = new Map({
-                basemap: "arcgis-topographic"
+                basemap: "arcgis-dark-gray"
             });
             const view = new MapView({
                 map: map,
                 center: [-79.441438, 43.655480],
-                zoom: 14,
+                zoom: 13,
                 container: "viewDiv"
             });
 
+            view.ui.move("zoom", "bottom-left");
+            view.ui.add(title, "top-left");
+            view.ui.add(subtitle, "top-left");
+
             const scavengerstopsRenderer = {
-                "type": "simple"
+                "type": "simple",
                 "symbol": {
                     "type": "picture-marker",
-                    "url": "hearticon.png"
+                    "url": "https://ridleysoudack.github.io/pl2/hearticon.png", //It seems like this needs to be an absolute URL to function correctly.
+                    "width": "36px",
+                    "height": "48px"
                 }
             }
+            const stopLabels = {
+                symbol: {
+                    type: "text",
+                    color: "#FFFFFF",
+                    haloColor: "#870009",
+                    haloSize: "1.5px",
+                    font: {
+                        size: "14px",
+                        family: "Noto Sans",
+                        style: "italic",
+                        weight: "normal"
+                    }
+                },
+
+                labelPlacement: "above-center",
+                labelExpressionInfo: {
+                expression: "$feature.STOPINFO"
+                } 
+            };
+
+            // Create the layer and set the renderer
+            const stops = new FeatureLayer({
+                url: "https://services1.arcgis.com/pMeXRvgWClLJZr3s/arcgis/rest/services/ScavengerHuntDirections_Hosted/FeatureServer/1",
+                renderer: scavengerstopsRenderer,
+                labelingInfo: [stopLabels]
+            });
+
+            map.add(stops);
+
+            const defaultLine = {
+                type: "simple-line",
+                width: "4px"
+            }
+            const pathRenderer = {
+                type: "simple",
+                symbol: {
+                    type: "simple-line",
+                    width: "6px"
+                },
+                visualVariables: [
+                    {
+                        type: "color",
+                        field: "DirectionPointID",
+                        stops: [
+                            {value: 1, color: "#1034A6"},
+                            {value: 39, color: "#870009"}
+                        ]
+                    }
+                ]
+            };
+            const paths = new FeatureLayer({
+                url: "https://services1.arcgis.com/pMeXRvgWClLJZr3s/arcgis/rest/services/ScavengerHuntDirections_Hosted/FeatureServer/3",
+                renderer: pathRenderer,
+                opacity: .75
+            });
+
+            map.add(paths, 0);
         });
     </script>
     </head>
     <body>
         <div id="viewDiv"></div>
+        <h1 id="title">Proposal Scavenger Hunt</h1>
+        <h2 id="subtitle">The route I gave my girlfriend, now wife!</h2>
     </body>
 
 </html>
